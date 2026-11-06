@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Псалом 109: Господь и Священник | Указатели</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Comic Neue', 'Comic Sans MS', sans-serif;
+            background: #b48a62;
+            background-image: radial-gradient(circle at 10% 20%, rgba(218, 178, 115, 0.08) 0%, rgba(0,0,0,0) 50%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .app-container {
+            max-width: 850px;
+            width: 100%;
+            background: #fff6e8;
+            border-radius: 48px;
+            box-shadow: 0 20px 35px rgba(100, 70, 30, 0.15);
+            padding: 30px 30px 40px;
+            border: 1px solid #f0dbb4;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 20px;
+        }
+
+        .header .studio-link {
+            display: inline-block;
+            font-size: 1rem;
+            color: #4A90D9;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid #4A90D9;
+            padding-bottom: 2px;
+            transition: 0.2s;
+        }
+
+        .header .studio-link:hover {
+            color: #2c6aa0;
+            border-bottom-color: #2c6aa0;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            color: #4a3520;
+            margin-top: 8px;
+            margin-bottom: 4px;
+        }
+
+        .header .subtitle {
+            font-size: 1rem;
+            color: #7a5a3a;
+            font-weight: 300;
+            line-height: 1.5;
+        }
+
+        .screen {
+            display: none;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        .screen h2 {
+            font-size: 1.5rem;
+            color: #4a3520;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .character-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .character-wrapper img {
+            width: 200px;
+            height: auto;
+            display: block;
+        }
+
+        .speech-bubble {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 20px 25px;
+            border: 1px solid #e6dacb;
+            position: relative;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #3e2c1a;
+            text-align: left;
+        }
+
+        .speech-bubble .name {
+            font-weight: 700;
+            color: #b48a62;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        /* Стихи */
+        .verse-block {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 20px 25px;
+            border: 1px solid #e6dacb;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #3e2c1a;
+            font-style: italic;
+            text-align: left;
+        }
+
+        .verse-block .ref {
+            display: block;
+            margin-top: 10px;
+            font-style: normal;
+            font-weight: 600;
+            color: #b48a62;
+            font-size: 0.9rem;
+        }
+
+        /* Вопросы (квиз) */
+        .quiz-box {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid #e6dacb;
+            margin-bottom: 20px;
+        }
+
+        .quiz-box .question {
+            font-weight: 600;
+            color: #4a3520;
+            margin-bottom: 16px;
+            font-size: 1.05rem;
+        }
+
+        .quiz-option {
+            background: #f4ede4;
+            border: 2px solid transparent;
+            border-radius: 16px;
+            padding: 14px 18px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #3e2c1a;
+        }
+
+        .quiz-option:hover {
+            border-color: #b48a62;
+            background: #efe5d8;
+        }
+
+        .quiz-option.correct {
+            background: #c8e6c9;
+            border-color: #4CAF50;
+            cursor: default;
+        }
+
+        .quiz-option.wrong {
+            background: #ffcdd2;
+            border-color: #f44336;
+            cursor: default;
+        }
+
+        .quiz-option.disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .quiz-feedback {
+            display: none;
+            margin-top: 12px;
+            padding: 14px 16px;
+            background: #f4ede4;
+            border-radius: 12px;
+            color: #3e2c1a;
+            line-height: 1.6;
+            border-left: 3px solid #b48a62;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+        }
+
+        .quiz-feedback strong {
+            color: #b48a62;
+        }
+
+        /* Вывод */
+        .conclusion-box {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid #e6dacb;
+            margin-bottom: 20px;
+        }
+
+        .conclusion-box p {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #3e2c1a;
+            margin-bottom: 10px;
+        }
+
+        .conclusion-box .final-verse {
+            font-style: italic;
+            color: #b48a62;
+            margin-top: 10px;
+            padding: 15px;
+            background: #f4ede4;
+            border-radius: 12px;
+            font-size: 0.95rem;
+        }
+
+        /* Кнопки */
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-buttons button {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        button {
+            background: #b48a62;
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #9a704a;
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            background: #d5c4b0;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        button.secondary {
+            background: #e6dacb;
+            color: #4a3520;
+        }
+
+        button.secondary:hover {
+            background: #d5c4b0;
+        }
+
+        /* Футер */
+        .footer {
+            margin-top: 30px;
+            border-top: 1px solid #e6dacb;
+            padding-top: 20px;
+            text-align: center;
+        }
+
+        .footer .studio-link {
+            color: #4A90D9;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            border-bottom: 1px solid #4A90D9;
+            padding-bottom: 2px;
+        }
+
+        .footer .small-note {
+            display: block;
+            margin-top: 6px;
+            color: #a58d7a;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 600px) {
+            .app-container { padding: 20px 15px; }
+            .header h1 { font-size: 1.6rem; }
+            .character-wrapper img { width: 150px; }
+            .speech-bubble { font-size: 1rem; padding: 15px 18px; }
+            .verse-block { font-size: 0.95rem; padding: 15px 18px; }
+            .quiz-option { font-size: 0.9rem; padding: 12px 14px; }
+            .nav-buttons { flex-direction: column; }
+            button { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- ШАПКА -->
+        <div class="header">
+            <a href="https://vk.com/ykazateli_of_christ" target="_blank" class="studio-link">
+                🕯️ Библейская студия анимации «Указатели»
+            </a>
+            <h1>📖 Псалом 109: Господь и Священник</h1>
+            <p class="subtitle">Христос в Псалмах — урок 7</p>
+        </div>
+
+        <!-- ЭКРАН 1: ВСТУПЛЕНИЕ -->
+        <div id="screen1" class="screen active">
+            <div class="character-wrapper">
+                <img src="kristina-bible.gif" alt="Кристина с Библией">
+            </div>
+            <div class="speech-bubble">
+                <span class="name">Кристина:</span>
+                Сегодня — <strong>Псалом 109</strong>. Это самый цитируемый псалом в Новом Завете. Иисус Сам задал по нему вопрос фарисеям. Давай разберёмся, почему этот псалом так важен.
+            </div>
+            <div style="text-align:center;">
+                <button onclick="goToStep(2)">📖 Начать</button>
+            </div>
+        </div>
+
+        <!-- ЭКРАН 2: ВОПРОС 1 -->
+        <div id="screen2" class="screen">
+            <h2>❓ Вопрос 1</h2>
+
+            <div class="character-wrapper">
+                <img src="kristina-holding.gif" alt="Кристина говорит">
+            </div>
+            <div class="speech-bubble">
+                <span class="name">Кристина:</span>
+                Прочитай первый стих Псалма 109. Обрати внимание: Давид называет Мессию «Господом». А теперь подумай, почему Иисус спросил фарисеев: «Что вы думаете о Христе? чей Он Сын?»
+            </div>
+
+            <div class="verse-block">
+                «Сказал Господь Господу моему: седи одесную Меня, доколе положу врагов Твоих в подножие ног Твоих»
+                <span class="ref">— Псалом 109:1</span>
+            </div>
+
+            <div class="quiz-box" id="quiz1">
+                <div class="question">Почему Иисус задал этот вопрос фарисеям?</div>
+                <div class="quiz-option" data-correct="false" onclick="checkAnswer(this, 'quiz1', false)">
+                    Потому что Он хотел узнать их мнение о Писании.
+                </div>
+                <div class="quiz-option" data-correct="true" onclick="checkAnswer(this, 'quiz1', true)">
+                    Потому что Давид называет Мессию Господом — значит, Он больше, чем просто Сын Давида.
+                </div>
+                <div class="quiz-option" data-correct="false" onclick="checkAnswer(this, 'quiz1', false)">
+                    Потому что Он хотел показать, что фарисеи не знают Писания.
+                </div>
+                <div class="quiz-feedback" id="feedback1">
+                    <strong>Верно!</strong> Давид называет Мессию «Господом». Это значит, что Мессия — не просто потомок Давида, но Тот, Кто выше его. Иисус показал фарисеям, что они не понимают Писание до конца.
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="secondary" onclick="goToStep(1)">⬅️ Назад</button>
+                <button onclick="goToStep(3)" id="toStep3" disabled>➡️ Дальше</button>
+            </div>
+        </div>
+
+        <!-- ЭКРАН 3: ВОПРОС 2 -->
+        <div id="screen3" class="screen">
+            <h2>❓ Вопрос 2</h2>
+
+            <div class="character-wrapper">
+                <img src="kristina-bible.gif" alt="Кристина с Библией">
+            </div>
+            <div class="speech-bubble">
+                <span class="name">Кристина:</span>
+                А теперь прочитай четвёртый стих. Что значит быть «священником по чину Мелхиседека»?
+            </div>
+
+            <div class="verse-block">
+                «Клялся Господь и не раскается: Ты священник вовек по чину Мелхиседека»
+                <span class="ref">— Псалом 109:4</span>
+            </div>
+
+            <div class="quiz-box" id="quiz2">
+                <div class="question">Что значит «священник по чину Мелхиседека»?</div>
+                <div class="quiz-option" data-correct="false" onclick="checkAnswer(this, 'quiz2', false)">
+                    Это значит, что Христос был священником в Иерусалимском храме.
+                </div>
+                <div class="quiz-option" data-correct="true" onclick="checkAnswer(this, 'quiz2', true)">
+                    Это значит, что Христос — вечный Первосвященник, Который принёс Себя в жертву раз и навсегда.
+                </div>
+                <div class="quiz-option" data-correct="false" onclick="checkAnswer(this, 'quiz2', false)">
+                    Это значит, что Христос был потомком Мелхиседека.
+                </div>
+                <div class="quiz-feedback" id="feedback2">
+                    <strong>Верно!</strong> Мелхиседек был священником ещё до закона. Христос — священник по его чину, то есть вечный Первосвященник, Который принёс Себя в жертву раз и навсегда (Евр. 7:17).
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="secondary" onclick="goToStep(2)">⬅️ Назад</button>
+                <button onclick="goToStep(4)" id="toStep4" disabled>➡️ Дальше</button>
+            </div>
+        </div>
+
+        <!-- ЭКРАН 4: ВЫВОД -->
+        <div id="screen4" class="screen">
+            <h2>🕊️ Вывод</h2>
+
+            <div class="character-wrapper">
+                <img src="kristina-holding.gif" alt="Кристина говорит">
+            </div>
+            <div class="speech-bubble">
+                <span class="name">Кристина:</span>
+                Псалом 109 показывает нам <strong>Христа как Господа и вечного Первосвященника</strong>. Он больше, чем просто Сын Давида. Он — Тот, Кому покорится всё. И Он — Тот, Кто принёс Себя в жертву за нас.
+            </div>
+
+            <div class="conclusion-box">
+                <p>
+                    <strong>Главная истина:</strong> Христос — Господь Давида и вечный Первосвященник, Который принёс Себя в жертву за нас.
+                </p>
+                <div class="final-verse">
+                    «Клялся Господь и не раскается: Ты священник вовек по чину Мелхиседека»<br>
+                    <span style="font-style: normal; font-weight: 600; color: #4a3520;">— Псалом 109:4</span>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="secondary" onclick="goToStep(3)">⬅️ Назад</button>
+                <button class="secondary" onclick="resetAll()">🔄 Пройти заново</button>
+                <a href="https://ykazateli.github.io/psalm-117-cornerstone/" style="text-decoration: none; flex: 1; min-width: 140px;">
+                    <button style="width: 100%;">➡️ К Псалму 117</button>
+                </a>
+            </div>
+        </div>
+
+        <!-- ФУТЕР -->
+        <div class="footer">
+            <a href="https://vk.com/ykazateli_of_christ" target="_blank" class="studio-link">
+                🕯️ Исследуйте Писание вместе с «Указателями»
+            </a>
+            <span class="small-note">Серия «Христос в Псалмах» — урок 8</span>
+        </div>
+    </div>
+
+    <script>
+        // ============ КВИЗ ============
+        let quiz1Answered = false;
+        let quiz2Answered = false;
+
+        function checkAnswer(element, quizId, isCorrect) {
+            const quizBox = document.getElementById(quizId);
+
+            // Если уже отвечено — игнорируем
+            if (quizId === 'quiz1' && quiz1Answered) return;
+            if (quizId === 'quiz2' && quiz2Answered) return;
+
+            const options = quizBox.querySelectorAll('.quiz-option');
+            const feedback = quizBox.querySelector('.quiz-feedback');
+
+            if (isCorrect) {
+                // Правильный ответ
+                element.classList.add('correct');
+                options.forEach(opt => opt.classList.add('disabled'));
+                feedback.classList.add('show');
+
+                if (quizId === 'quiz1') {
+                    quiz1Answered = true;
+                    document.getElementById('toStep3').disabled = false;
+                } else if (quizId === 'quiz2') {
+                    quiz2Answered = true;
+                    document.getElementById('toStep4').disabled = false;
+                }
+            } else {
+                // Неправильный ответ
+                element.classList.add('wrong');
+                element.classList.add('disabled');
+            }
+        }
+
+        // ============ НАВИГАЦИЯ ============
+        function goToStep(stepNumber) {
+            document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+            document.getElementById('screen' + stepNumber).classList.add('active');
+            document.querySelector('.app-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function resetAll() {
+            // Сбрасываем квиз 1
+            quiz1Answered = false;
+            const quiz1 = document.getElementById('quiz1');
+            quiz1.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('correct', 'wrong', 'disabled');
+            });
+            quiz1.querySelector('.quiz-feedback').classList.remove('show');
+            document.getElementById('toStep3').disabled = true;
+
+            // Сбрасываем квиз 2
+            quiz2Answered = false;
+            const quiz2 = document.getElementById('quiz2');
+            quiz2.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('correct', 'wrong', 'disabled');
+            });
+            quiz2.querySelector('.quiz-feedback').classList.remove('show');
+            document.getElementById('toStep4').disabled = true;
+
+            goToStep(1);
+        }
+    </script>
+</body>
+</html>
